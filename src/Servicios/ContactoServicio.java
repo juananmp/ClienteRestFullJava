@@ -34,14 +34,12 @@ public class ContactoServicio {
         webTarget = client.target(BASE_URI).path("contactoServicio");
     }
 
-    public <T> T enviarPersona(Class<T> responseType, String nombre, String id, String token) throws ClientErrorException {
+    public <T> T enviarPersona(Class<T> responseType, String id, String nombre, String token) throws ClientErrorException {
         WebTarget resource = webTarget;
-         if (id != null) {
-            resource = resource.queryParam("id", id);
-        }
         if (nombre != null) {
             resource = resource.queryParam("nombre", nombre);
         }
+        resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{id}));
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).header(HttpHeaders.AUTHORIZATION, token).get(responseType);
     }
 

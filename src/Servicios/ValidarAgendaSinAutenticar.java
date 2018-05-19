@@ -8,14 +8,13 @@ package Servicios;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.HttpHeaders;
 
 /**
- * Jersey REST client generated for REST resource:EnviarAgendaResource
- * [EnviarAgenda]<br>
+ * Jersey REST client generated for REST
+ * resource:ValidarAgendaSinAutenticarResource [ValidarAgendaSinAutenticar]<br>
  * USAGE:
  * <pre>
- *        EnviarAgendaServicio client = new EnviarAgendaServicio();
+ *        ValidarAgendaSinAutenticar client = new ValidarAgendaSinAutenticar();
  *        Object response = client.XXX(...);
  *        // do whatever with response
  *        client.close();
@@ -23,21 +22,23 @@ import javax.ws.rs.core.HttpHeaders;
  *
  * @author janto
  */
-public class EnviarAgendaServicio {
+public class ValidarAgendaSinAutenticar {
 
     private WebTarget webTarget;
     private Client client;
     private static final String BASE_URI = "http://localhost:8080/RestFullServer/webresources";
 
-    public EnviarAgendaServicio() {
+    public ValidarAgendaSinAutenticar() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
-        webTarget = client.target(BASE_URI).path("EnviarAgenda");
+        webTarget = client.target(BASE_URI).path("ValidarAgendaSinAutenticar");
     }
 
-    public <T> T getXml(Class<T> responseType, String token, String idAgenda) throws ClientErrorException {
+    public String ValAgenda(String agenda) throws ClientErrorException {
         WebTarget resource = webTarget;
-        resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{idAgenda}));
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).header(HttpHeaders.AUTHORIZATION, token).get(responseType);
+        if (agenda != null) {
+            resource = resource.queryParam("agenda", agenda);
+        }
+        return resource.request(javax.ws.rs.core.MediaType.TEXT_PLAIN).get(String.class);
     }
 
     public void close() {

@@ -34,9 +34,9 @@ public class MostrarAgendaServicio {
         webTarget = client.target(BASE_URI).path("seleccionarAgenda");
     }
 
-    public <T> T getXml(Class<T> responseType, String token) throws ClientErrorException {
+    public <T> T getXml(Class<T> responseType, String user, String token) throws ClientErrorException {
         WebTarget resource = webTarget;
-        
+        resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{user}));
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).header(HttpHeaders.AUTHORIZATION, token).get(responseType);
     }
 

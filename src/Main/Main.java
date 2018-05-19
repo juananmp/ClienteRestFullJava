@@ -23,7 +23,9 @@ import Servicios.NuevaAgendaServicio;
 import Servicios.TokenLogin;
 import Servicios.UpdateServicio;
 import Servicios.ValidarAgendaServicio;
+import Servicios.ValidarAgendaSinAutenticar;
 import Servicios.ValidarPersonaServicio;
+import Servicios.ValidarPersonaSinAutenticar;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Iterator;
@@ -40,6 +42,7 @@ public class Main {
     public static String idUsuario = "";
     public static String idAgenda = "";
     public static String idContacto = "";
+  //  public static String user="juan";
     Scanner sn = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -55,6 +58,8 @@ public class Main {
 
             System.out.println(" 1. Iniciar sesion");
             System.out.println(" 2. Registro usuario");
+            System.out.println(" 3. ValidarAgendaSinAutenticar");
+            System.out.println(" 4. ValidarPersonaSinAutenticar");
             System.out.println(" 5. Salir");
             try {
 
@@ -63,13 +68,18 @@ public class Main {
                 switch (opcion) {
                     case 1:
                         login();
-                        // IniciarSesion();
                         break;
                     case 2:
                         CrearCuenta();
                         break;
-
                     case 3:
+                        ValidarAgendaSin();
+                        break;
+                    case 4:
+                        ValidarPersonaSin();
+                        break;
+
+                    case 5:
                         System.out.println("Ha salido satisfactoriamente");
                         salir = true;
                         break;
@@ -145,6 +155,29 @@ public class Main {
 
         }
 
+    }
+    private static void ValidarAgendaSin() {
+       System.out.print("Pegue la agenda (sin saltos de linea): ");
+        Scanner entradaEscaner = new Scanner(System.in);
+        String entradaTeclado = entradaEscaner.nextLine();
+       ValidarAgendaSinAutenticar va = new ValidarAgendaSinAutenticar();
+        System.out.println(va.ValAgenda(entradaTeclado));
+        System.out.println(entradaTeclado);
+    }
+    
+    private static void ValidarPersonaSin() {
+       System.out.print("Introduzca el nombre: ");
+        Scanner entradaEscaner = new Scanner(System.in);
+        String nombre = entradaEscaner.nextLine();
+         System.out.print("Introuzca su correo: ");
+        
+        String correo = entradaEscaner.nextLine();
+         System.out.print("Introduzca el telefono): ");
+        
+        String telefono = entradaEscaner.nextLine();
+       ValidarPersonaSinAutenticar va = new ValidarPersonaSinAutenticar();
+        System.out.println(va.ValPersona(nombre,correo, telefono));
+       // System.out.println(entradaTeclado);
     }
 
     public static void login() {
@@ -256,7 +289,7 @@ public class Main {
         System.out.println("---Lista de Agendas---");
         MostrarAgendaServicio pet = new MostrarAgendaServicio();
         MostrarAgenda lista = new MostrarAgenda();
-        lista = pet.getXml(MostrarAgenda.class, token);
+        lista = pet.getXml(MostrarAgenda.class,idUsuario, token);
         Iterator<Map.Entry<String, Integer>> entries = lista.getAgenda().entrySet().iterator();
         int i = 1;
         ArrayList<Integer> numeracion = new ArrayList<Integer>();
@@ -380,10 +413,13 @@ public class Main {
             telefonoC = true;
 
         }
-        Contacto pA = new Contacto();
-        ValidarPersonaServicio va = new ValidarPersonaServicio();
-        System.out.println("Validacion: " + va.ValPersona(correo, numeroTelefono, nombre));
-
+        ValidarPersonaServicio vas = new ValidarPersonaServicio();
+            try{
+                System.out.println("Validacion: "+vas.ValPersona(nombre,correo, numeroTelefono));
+            }catch(Exception e){
+                System.out.println("Validacion: NO VALIDO");   
+            }
+       
     }
 
     private static void DevolverContacto() {
@@ -391,7 +427,7 @@ public class Main {
         Scanner entradaEscaner = new Scanner(System.in);
         String entradaTeclado = entradaEscaner.nextLine();
         ContactoServicio mc = new ContactoServicio();
-        System.out.println("Contacto: " + mc.enviarPersona(PersonaObj.class, entradaTeclado, idAgenda, token));
+        System.out.println("Contacto: " + mc.enviarPersona(PersonaObj.class, idAgenda, entradaTeclado,token));
 
     }
 

@@ -35,9 +35,7 @@ public class ValidarAgendaServicio {
 
     public String ValAgenda(String idA) throws ClientErrorException {
         WebTarget resource = webTarget;
-        if (idA != null) {
-            resource = resource.queryParam("idA", idA);
-        }
+        resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{idA}));
         return resource.request(javax.ws.rs.core.MediaType.TEXT_PLAIN).get(String.class);
     }
 

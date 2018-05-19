@@ -33,17 +33,9 @@ public class ValidarPersonaServicio {
         webTarget = client.target(BASE_URI).path("ValidarPersona");
     }
 
-    public String ValPersona(String correo, String telefono, String nombre) throws ClientErrorException {
+    public String ValPersona(String nombre, String correo, String telefono) throws ClientErrorException {
         WebTarget resource = webTarget;
-        if (correo != null) {
-            resource = resource.queryParam("correo", correo);
-        }
-        if (telefono != null) {
-            resource = resource.queryParam("telefono", telefono);
-        }
-        if (nombre != null) {
-            resource = resource.queryParam("nombre", nombre);
-        }
+        resource = resource.path(java.text.MessageFormat.format("{0}/{1}/{2}", new Object[]{nombre, correo, telefono}));
         return resource.request(javax.ws.rs.core.MediaType.TEXT_PLAIN).get(String.class);
     }
 

@@ -8,14 +8,14 @@ package Servicios;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.HttpHeaders;
 
 /**
- * Jersey REST client generated for REST resource:EnviarAgendaResource
- * [EnviarAgenda]<br>
+ * Jersey REST client generated for REST
+ * resource:ValidarPersonaSinAutenticarResource
+ * [ValidarPersonaSinAutenticar]<br>
  * USAGE:
  * <pre>
- *        EnviarAgendaServicio client = new EnviarAgendaServicio();
+ *        ValidarPersonaSinAutenticar client = new ValidarPersonaSinAutenticar();
  *        Object response = client.XXX(...);
  *        // do whatever with response
  *        client.close();
@@ -23,21 +23,21 @@ import javax.ws.rs.core.HttpHeaders;
  *
  * @author janto
  */
-public class EnviarAgendaServicio {
+public class ValidarPersonaSinAutenticar {
 
     private WebTarget webTarget;
     private Client client;
     private static final String BASE_URI = "http://localhost:8080/RestFullServer/webresources";
 
-    public EnviarAgendaServicio() {
+    public ValidarPersonaSinAutenticar() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
-        webTarget = client.target(BASE_URI).path("EnviarAgenda");
+        webTarget = client.target(BASE_URI).path("ValidarPersonaSinAutenticar");
     }
 
-    public <T> T getXml(Class<T> responseType, String token, String idAgenda) throws ClientErrorException {
+    public String ValPersona(String nombre, String correo, String telefono) throws ClientErrorException {
         WebTarget resource = webTarget;
-        resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{idAgenda}));
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).header(HttpHeaders.AUTHORIZATION, token).get(responseType);
+        resource = resource.path(java.text.MessageFormat.format("{0}/{1}/{2}", new Object[]{nombre, correo, telefono}));
+        return resource.request(javax.ws.rs.core.MediaType.TEXT_PLAIN).get(String.class);
     }
 
     public void close() {
