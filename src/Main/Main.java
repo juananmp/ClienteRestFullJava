@@ -7,12 +7,10 @@ package Main;
 
 import Objetos.AgendaObject;
 import Objetos.Contacto;
-import Objetos.ListaContacto;
 import Objetos.MostrarAgenda;
 import Objetos.NuevaAgendaObj;
 import Objetos.PersonaObj;
 import Objetos.UsuarioObj;
-import Rest.BorrarContacto;
 import Servicios.BorradoServicio;
 import Servicios.ContactoServicio;
 import Servicios.CreateUser;
@@ -250,10 +248,15 @@ public class Main {
             telefonoC = true;
 
         }
-        ListaContacto ls = new ListaContacto();
-        ls.getIdContacto().add(idContacto2);
-        ls.getPersona().add(p);
-        up.putXml(ls, token);
+//        ListaContacto ls = new ListaContacto();
+        p.getName();
+        p.getEmail();
+        p.getTelephone(); 
+//                
+//                
+//        ls.getIdContacto().add(idContacto2);
+//        ls.getPersona().add(p);
+        up.putXml(p, token, idContacto2);
         
         
     }
@@ -272,7 +275,7 @@ public class Main {
         usu.setPassword(pass);
 
         CreateUser cr = new CreateUser();
-        cr.putXml(usu);
+        cr.putXml(usu,usu.getUser(),usu.getPassword());
 
     }
 
@@ -446,13 +449,5 @@ public class Main {
         System.out.println(msa.getXml(AgendaObject.class, token,idAgenda));
     }
 
-    public static boolean esNunero(String numero) {
-        try {
-            Integer.parseInt(numero);
-            return true;
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-
-    }
+  
 }

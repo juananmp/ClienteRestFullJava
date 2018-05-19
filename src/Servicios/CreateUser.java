@@ -32,8 +32,8 @@ public class CreateUser {
         webTarget = client.target(BASE_URI).path("registro");
     }
 
-    public void putXml(Object requestEntity) throws ClientErrorException {
-        webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML));
+    public void putXml(Object requestEntity, String user, String password) throws ClientErrorException {
+        webTarget.path(java.text.MessageFormat.format("{0}/{1}", new Object[]{user, password})).request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML));
     }
 
     public void close() {
