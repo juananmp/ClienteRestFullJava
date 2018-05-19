@@ -137,8 +137,7 @@ public class Main {
                     break;
                 case 7:
                     EliminarContacto();
-                    // opcionDM=false;
-                    //  ListaContactos();
+                   
                     break;
                 case 8:
                     ListaAgendas();
